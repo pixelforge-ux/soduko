@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 <head>
-	<meta charset="UTF-8">
-    <link rel="icon"
-          href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
-    <title>Sudoku - Professional Puzzle Game</title>
     <meta charset="UTF-8">
+    <link rel="icon"
+          href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'></text></svg>">
+    <title>Sudoku - Professional Puzzle Game</title>
     <meta name="keywords"
           content="Sudoku, online game, puzzle game, brain game, free game, difficulty levels, numbers, fill the board, challenge"/>
     <meta name="description"
@@ -643,8 +642,8 @@
 <body>
 <div class="app">
     <div class="header">
-        <h1>سودوکو</h1>
-        <p>هر سطر، ستون و هر کادر ۳×۳ را با اعداد ۱ تا ۹ پر کنید.</p>
+        <h1></h1>
+        <p>      �        .</p>
     </div>
     <div class="card">
         <div class="toolbar">
@@ -653,7 +652,7 @@
                     <circle cx="12" cy="12" r="10" stroke-width="2"/>
                     <path stroke-linecap="round" stroke-width="2" d="M12 6v6l4 2"/>
                 </svg>
-                <span id="elapsed">۰۰:۰۰</span>
+                <span id="elapsed">:</span>
             </div>
             <div class="toolbar-actions">
                 <button class="btn btn-ghost btn-icon" id="pause-btn" title="Pause game">
@@ -664,12 +663,12 @@
                 </button>
                 <div class="difficulty-group">
                     <select class="select" id="difficulty-select">
-                        <option value="easy">آسون</option>
-                        <option value="medium" selected>متوسط</option>
-                        <option value="hard">سخت</option>
-                        <option value="expert">دشوار</option>
-                        <option value="master">استاد</option>
-                        <option value="custom">سفارشی</option>
+                        <option value="easy"></option>
+                        <option value="medium" selected></option>
+                        <option value="hard"></option>
+                        <option value="expert"></option>
+                        <option value="master"></option>
+                        <option value="custom"></option>
                     </select>
                     <div class="custom-difficulty" id="custom-difficulty">
                         <span class="custom-label">Cells:</span>
@@ -677,7 +676,7 @@
                                title="Number of empty cells (20-65)">
                     </div>
                 </div>
-                <button class="btn btn-primary" id="new-game-btn">بازی جدید</button>
+                <button class="btn btn-primary" id="new-game-btn"> </button>
             </div>
         </div>
         <div class="board-section">
@@ -685,15 +684,15 @@
                 <table id="board"></table>
                 <div class="paused-overlay" id="paused-overlay">
                     <div class="paused-content">
-                        <h3>متوقف شد</h3>
-                        <p>برای ادامه روی▶️ کلیک کنید</p>
+                        <h3> </h3>
+                        <p>    </p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="controls">
             <div class="controls-row">
-                <div class="controls-label">حرکات</div>
+                <div class="controls-label"></div>
                 <div class="action-group">
                     <button class="btn btn-ghost" id="undo-btn" title="Undo (Ctrl+Z)">
                         <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
@@ -701,7 +700,7 @@
                             <path d="M5 10h11a4 4 0 010 8h-1" stroke="currentColor" fill="none" stroke-width="2"
                                   stroke-linecap="round"/>
                         </svg>
-                        لغو انجام
+                         
                     </button>
                     <button class="btn btn-ghost" id="redo-btn" title="Redo (Ctrl+Y)">
                         <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
@@ -709,37 +708,37 @@
                             <path d="M19 10H8a4 4 0 000 8h1" stroke="currentColor" fill="none" stroke-width="2"
                                   stroke-linecap="round"/>
                         </svg>
-                        انجام دوباره
+                         
                     </button>
                     <button class="btn btn-success" id="hint-btn" title="Reveal one cell">
                         <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 2l2.4 7.4h7.6l-6 4.6 2.3 7-6.3-4.6-6.3 4.6 2.3-7-6-4.6h7.6z"/>
                         </svg>
-                        راهنمایی
+                        
                     </button>
                     <button class="btn btn-warning" id="check-btn" title="Check for errors">
                         <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" fill="none"
                                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        چک کردن
+                         
                     </button>
                 </div>
             </div>
             <div class="controls-row">
-                <div class="controls-label">جعبه اعداد</div>
+                <div class="controls-label"> </div>
                 <div class="number-pad">
-                    <button class="num-btn" data-num="1">۱</button>
-                    <button class="num-btn" data-num="2">۲</button>
-                    <button class="num-btn" data-num="3">۳</button>
-                    <button class="num-btn" data-num="4">۴</button>
-                    <button class="num-btn" data-num="5">۵</button>
-                    <button class="num-btn" data-num="6">۶</button>
-                    <button class="num-btn" data-num="7">۷</button>
-                    <button class="num-btn" data-num="8">۸</button>
-                    <button class="num-btn" data-num="9">۹</button>
-                    <button class="num-btn pencil" id="pencil-btn" title="Toggle notes mode (P)">✏️</button>
-                    <button class="num-btn erase" id="erase-btn" title="Erase cell (Delete)">⌫</button>
+                    <button class="num-btn" data-num="1"></button>
+                    <button class="num-btn" data-num="2"></button>
+                    <button class="num-btn" data-num="3"></button>
+                    <button class="num-btn" data-num="4"></button>
+                    <button class="num-btn" data-num="5"></button>
+                    <button class="num-btn" data-num="6"></button>
+                    <button class="num-btn" data-num="7"></button>
+                    <button class="num-btn" data-num="8"></button>
+                    <button class="num-btn" data-num="9"></button>
+                    <button class="num-btn pencil" id="pencil-btn" title="Toggle notes mode (P)"></button>
+                    <button class="num-btn erase" id="erase-btn" title="Erase cell (Delete)"></button>
                 </div>
             </div>
         </div>
@@ -747,11 +746,11 @@
 </div>
 <div class="modal" id="win-modal">
     <div class="modal-content">
-        <div class="modal-icon">🎉</div>
-        <h2>جدول کامل شد!</h2>
-        <p>کامل شد در<span class="modal-time" id="win-time">00:00</span></p>
+        <div class="modal-icon"></div>
+        <h2>  !</h2>
+        <p>  <span class="modal-time" id="win-time">00:00</span></p>
         <div class="modal-buttons">
-            <button class="btn btn-primary" id="new-game-modal-btn"> بازی دوباره</button>
+            <button class="btn btn-primary" id="new-game-modal-btn">  </button>
         </div>
     </div>
 </div>
@@ -781,6 +780,8 @@
             this.notes = {};
             this.selectedCell = null;
             this.generateBoard();
+            this.hintCount = 0; //     
+this.maxHints = 3;  //   
         }
 
         generateBoard() {
@@ -992,23 +993,31 @@
         }
 
         giveHint() {
-            const emptyCells = [];
-            for (let r = 0; r < 9; r++) {
-                for (let c = 0; c < 9; c++) {
-                    if (this.board[r][c] === "" && this.initialBoard[r][c] === "") emptyCells.push({r, c});
-                }
-            }
-            if (emptyCells.length === 0) return;
-            const {r, c} = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-            this.addToHistory();
-            this.board[r][c] = this.solution[r][c];
-            delete this.notes[`${r}-${c}`];
-            this.selectedCell = {row: r, col: c};
-            this.render();
-            this.checkWin();
-            this.saveState();
-        }
+    if (this.hintCount >= this.maxHints) {
+        alert(`  ${this.maxHints}      !`);
+        return;
+    }
 
+    const emptyCells = [];
+    for (let r = 0; r < 9; r++) {
+        for (let c = 0; c < 9; c++) {
+            if (this.board[r][c] === "" && this.initialBoard[r][c] === "") emptyCells.push({r, c});
+        }
+    }
+    if (emptyCells.length === 0) return;
+
+    const {r, c} = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+
+    this.addToHistory();
+    this.board[r][c] = this.solution[r][c];
+    delete this.notes[`${r}-${c}`];
+    this.selectedCell = {row: r, col: c};
+    this.render();
+    this.checkWin();
+    this.saveState();
+
+    this.hintCount++; //  
+}
         checkSolution() {
             let errors = false;
             for (let r = 0; r < 9; r++) {
@@ -1023,7 +1032,7 @@
             if (!errors && this.isBoardFull()) {
                 this.showWin();
             } else if (!errors) {
-                alert("Looking good! No errors found.");
+                alert("    ");
             }
         }
 
@@ -1166,7 +1175,7 @@
     }
 
     function startNewGame() {
-        if (game && !game.isBoardFull() && !confirm("یک بازی جدید شروع کنید؟ پیشرفت فعلی از بین خواهد رفت.")) return;
+if (game && !confirm("          .")) return;
         if (game) game.stopTimer();
         const difficulty = difficultySelect.value;
         const customCells = difficulty === "custom" ? parseInt(customCellsInput.value) : null;
@@ -1222,12 +1231,12 @@
 </script>
 <script src="../logo.js"></script>
 <style>
-  /* اصلاح چینش اصلی صفحه */
+  /*     */
   body {
     align-items: flex-start;
   }
 
-  /* فضا برای فوتر */
+  /*    */
   .app {
     padding-bottom: 90px;
   }
@@ -1260,7 +1269,7 @@
 </style>
 
 <footer class="gold-footer">
-  کاری از سید آروین موسوی
+      
 </footer>
 </body>
 </html>
