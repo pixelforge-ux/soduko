@@ -3,6 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <script>
+document.addEventListener("DOMContentLoaded", () => {
+  // چک می‌کند که SDK لود شده باشد
+  if (typeof window.Eitaa === "undefined" || !Eitaa.WebApp) {
+    console.warn("Eitaa.SDK not available — make sure this is inside Eitaa WebApp");
+    return;
+  }
+
+  const app = Eitaa.WebApp;
+
+  // به ایتا می‌گوید صفحه آماده است
+  app.ready();
+
+  // تمام صفحه کردن WebApp
+  if (app.expand) app.expand();
+
+  // غیرفعال کردن سوایپ عمودی (اختیاری)
+  if (app.disableVerticalSwipes) app.disableVerticalSwipes();
+
+  // مدیریت دکمه برگشت
+  app.onEvent("backButtonClicked", () => {
+    if (history.length > 1) {
+      history.back();
+    } else {
+      app.close();
+    }
+  });
+
+  // مثال: تغییر رنگ هدر
+  if (app.setHeaderColor) {
+    app.setHeaderColor("#FFFFFF"); 
+  }
+});
+        </script>
     <title>سودوکو حرفه‌ای</title>
     <style>
         :root {
