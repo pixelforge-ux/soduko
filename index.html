@@ -3,37 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    	    <script>
+<script src="https://developer.eitaa.com/eitaa-web-app.js"></script>
+<script>
 document.addEventListener("DOMContentLoaded", () => {
-  // چک می‌کند که SDK لود شده باشد
-  if (typeof window.Eitaa === "undefined" || !Eitaa.WebApp) {
-    console.warn("Eitaa.SDK not available — make sure this is inside Eitaa WebApp");
-    return;
-  }
+  try {
+    if (window.Eitaa && Eitaa.WebApp) {
+      Eitaa.WebApp.ready();
 
-  const app = Eitaa.WebApp;
+      // تمام صفحه شدن
+      if (Eitaa.WebApp.expand)
+        Eitaa.WebApp.expand();
 
-  // به ایتا می‌گوید صفحه آماده است
-  app.ready();
+      // تغییر رنگ هدر به آبی مایل به سفید (ثابت)
+      if (Eitaa.WebApp.setHeaderColor)
+        Eitaa.WebApp.setHeaderColor('#e3f2fd');
 
-  // تمام صفحه کردن WebApp
-  if (app.expand) app.expand();
+      // تایید قبل از بستن WebApp
+      if (Eitaa.WebApp.enableClosingConfirmation)
+        Eitaa.WebApp.enableClosingConfirmation();
 
-  // غیرفعال کردن سوایپ عمودی (اختیاری)
-  if (app.disableVerticalSwipes) app.disableVerticalSwipes();
+      // غیرفعال کردن سوایپ عمودی (اگر پشتیبانی شود)
+      if (Eitaa.WebApp.disableVerticalSwipes)
+        Eitaa.WebApp.disableVerticalSwipes();
 
-  // مدیریت دکمه برگشت
-  app.onEvent("backButtonClicked", () => {
-    if (history.length > 1) {
-      history.back();
-    } else {
-      app.close();
+      // دکمه بک
+      Eitaa.WebApp.onEvent('backButtonClicked', () => {
+        if (history.length > 1) {
+          history.back();
+        } else {
+          Eitaa.WebApp.close();
+        }
+      });
     }
-  });
-
-  // مثال: تغییر رنگ هدر
-  if (app.setHeaderColor) {
-    app.setHeaderColor("#eb4f34"); 
+  } catch (e) {
+    console.warn(e);
   }
 });
 </script>
