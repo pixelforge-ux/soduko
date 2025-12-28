@@ -3,6 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="https://developer.eitaa.com/eitaa-web-app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  try {
+    if (window.Eitaa && Eitaa.WebApp) {
+      Eitaa.WebApp.ready();
+
+      // تمام صفحه
+      if (Eitaa.WebApp.expand)
+        Eitaa.WebApp.expand();
+
+      // رنگ هدر
+      if (Eitaa.WebApp.setHeaderColor)
+        Eitaa.WebApp.setHeaderColor('#e3f2fd');
+
+      // ❌ سوایپ عمودی رو غیرفعال نکن
+      // تا کاربر بتونه ببنده
+      // Eitaa.WebApp.disableVerticalSwipes();
+
+      // نمایش دکمه بک ایتا
+      if (Eitaa.WebApp.BackButton)
+        Eitaa.WebApp.BackButton.show();
+
+      // مدیریت بک
+      Eitaa.WebApp.onEvent('backButtonClicked', () => {
+        if (history.length > 1) {
+          history.back();
+        } else {
+          // اجازه بده رفتار پیش‌فرض ایتا انجام بشه (بستن)
+          Eitaa.WebApp.close();
+        }
+      });
+    }
+  } catch (e) {
+    console.warn(e);
+  }
+});
+</script>
     <title>سودوکو حرفه‌ای</title>
     <style>
         :root {
