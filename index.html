@@ -886,6 +886,7 @@ document.addEventListener("DOMContentLoaded", () => {
             constructor() {
                 this.bg = new FallingBackground();
                 this.logic = new SudokuLogic();
+                this.isExiting = false;
                 this.puzzle = [];
                 this.solution = [];
                 this.userBoard = [];
@@ -916,16 +917,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // Handle hardware back button
                 window.addEventListener('popstate', (event) => {
+                    if (this.isExiting) {
+                        this.isExiting = false;
+                        return;
+                    }
+
                     if (this.currentScreen === 'settings') {
                         this.switchScreen('main', false);
                     } else if (this.currentScreen === 'game') {
+                        // If a win modal is shown, just go back to main menu
+                        if (this.modalWin.classList.contains('active')) {
+                            this.switchScreen('main', false);
+                            return;
+                        }
+                        // Prevent accidental exit: push state back and show confirmation
                         history.pushState({ screen: 'game' }, '');
                         this.confirmExit();
                     }
                 });
 
                 setTimeout(() => {
-                    this.switchScreen('main');
+                    // Set initial state to menu so back button has a target
+                    history.replaceState({ screen: 'main' }, '');
+                    this.switchScreen('main', false);
                 }, 2500);
                 
                 this.boardEl = document.getElementById('sudoku-board');
@@ -936,7 +950,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 document.getElementById('btn-start').onclick = () => this.checkResumeOrStart();
                 document.getElementById('btn-settings').onclick = () => this.switchScreen('settings');
-                document.getElementById('btn-settings-back').onclick = () => this.switchScreen('main');
+                document.getElementById('btn-settings-back').onclick = () => history.back();
                 document.getElementById('btn-game-back').onclick = () => this.confirmExit();
                 
                 document.getElementById('btn-exit-save').onclick = () => {
@@ -1274,8 +1288,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             exitToMenu() {
+                this.isExiting = true;
                 this.modalExit.classList.remove('active');
                 clearInterval(this.timerInterval);
+                
+                // Navigate back in history if we were in the game state
                 if (window.history.state?.screen === 'game') {
                     window.history.back();
                 }
