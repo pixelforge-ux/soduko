@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>سودوکو حرفه‌ای</title>
-    <script src="https://developer.eitaa.com/eitaa-web-app.js"></script>
 <script src="https://developer.eitaa.com/eitaa-web-app.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -12,33 +11,35 @@ document.addEventListener("DOMContentLoaded", () => {
     if (window.Eitaa && Eitaa.WebApp) {
       Eitaa.WebApp.ready();
 
-      // تمام صفحه شدن
       if (Eitaa.WebApp.expand)
         Eitaa.WebApp.expand();
 
-      // تغییر رنگ هدر
       if (Eitaa.WebApp.setHeaderColor)
-        Eitaa.WebApp.setHeaderColor('#e3f2fd');
+        Eitaa.WebApp.setHeaderColor('#0a61db');
 
-      // تایید قبل از بستن
       if (Eitaa.WebApp.enableClosingConfirmation)
         Eitaa.WebApp.enableClosingConfirmation();
 
-      // غیرفعال کردن سوایپ
       if (Eitaa.WebApp.disableVerticalSwipes)
         Eitaa.WebApp.disableVerticalSwipes();
 
-      // ❌ کنسل کامل دکمه بک ایتا
-      if (Eitaa.WebApp.BackButton) {
-        Eitaa.WebApp.BackButton.hide();
-        Eitaa.WebApp.offEvent('backButtonClicked');
-      }
+      // ✅ فعال و قابل مشاهده کردن دکمه بک ایتا
+      Eitaa.WebApp.BackButton.show();
+
+      // ✅ هندل کلیک دکمه بک
+      Eitaa.WebApp.BackButton.onClick(() => {
+        if (history.length > 1) {
+          history.back();
+        } else {
+          Eitaa.WebApp.close();
+        }
+      });
     }
   } catch (e) {
     console.warn(e);
   }
 });
-</script>
+            </script>
     <style>
         :root {
             --bg-color: #f0f2f5;
