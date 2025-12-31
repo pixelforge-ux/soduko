@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // تغییر رنگ هدر به آبی مایل به سفید (ثابت)
       if (Eitaa.WebApp.setHeaderColor)
-        Eitaa.WebApp.setHeaderColor('#0a61db');
+        Eitaa.WebApp.setHeaderColor('#e3f2fd');
 
       // تایید قبل از بستن WebApp
       if (Eitaa.WebApp.enableClosingConfirmation)
@@ -44,38 +44,34 @@ document.addEventListener("DOMContentLoaded", () => {
     <style>
         :root {
             --bg-color: #f0f2f5;
-            --card-bg: rgba(255, 255, 255, 0.85);
-            --glass-bg: rgba(255, 255, 255, 0.7);
+            --card-bg: #ffffff;
             --primary: #4a90e2;
-            --primary-glow: rgba(74, 144, 226, 0.4);
             --secondary: #6c757d;
             --text-main: #2c3e50;
-            --cell-border: #d1d8dd;
+            --cell-border: #bdc3c7;
             --cell-thick-border: #34495e;
             --cell-active: #e3f2fd;
             --cell-selected: #bbdefb;
-            --cell-highlight: rgba(232, 240, 254, 0.6);
+            --cell-highlight: #e8f0fe;
             --cell-error: #ffebee;
             --cell-error-text: #e53935;
-            --cell-fixed-text: #1a1a1a;
-            --cell-user-text: #0277bd;
+            --cell-fixed-text: #2c3e50;
+            --cell-user-text: #4a90e2;
+            --btn-shadow: rgba(0, 0, 0, 0.2);
             --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            --blur: saturate(180%) blur(15px);
         }
 
         [data-theme="dark"] {
-            --bg-color: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.85);
-            --glass-bg: rgba(15, 23, 42, 0.7);
-            --text-main: #f1f5f9;
-            --cell-border: #334155;
-            --cell-thick-border: #f1f5f9;
-            --cell-active: #1e293b;
-            --cell-selected: #334155;
-            --cell-highlight: rgba(51, 65, 85, 0.5);
-            --cell-fixed-text: #f8fafc;
-            --cell-user-text: #38bdf8;
-            --primary: #38bdf8;
+            --bg-color: #1a1a1a;
+            --card-bg: #2c3e50;
+            --text-main: #ecf0f1;
+            --cell-border: #455a64;
+            --cell-thick-border: #ecf0f1;
+            --cell-active: #34495e;
+            --cell-selected: #4a90e2;
+            --cell-highlight: #3d5afe;
+            --cell-fixed-text: #ecf0f1;
+            --cell-user-text: #81d4fa;
         }
 
         [data-theme="sepia"] {
@@ -111,44 +107,6 @@ document.addEventListener("DOMContentLoaded", () => {
             align-items: center;
             overflow: hidden;
             user-select: none;
-            position: relative;
-        }
-
-        /* Animated Background */
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-            background: linear-gradient(45deg, var(--bg-color), #dee2e6);
-        }
-
-        .blob {
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: var(--primary);
-            filter: blur(80px);
-            border-radius: 50%;
-            opacity: 0.15;
-            animation: move 20s infinite alternate;
-        }
-
-        .blob:nth-child(2) {
-            background: #a29bfe;
-            width: 400px;
-            height: 400px;
-            right: -100px;
-            top: -100px;
-            animation-duration: 25s;
-        }
-
-        @keyframes move {
-            from { transform: translate(-20%, -20%) rotate(0deg); }
-            to { transform: translate(20%, 20%) rotate(360deg); }
         }
 
         #app {
@@ -156,10 +114,21 @@ document.addEventListener("DOMContentLoaded", () => {
             max-width: 500px;
             height: 100%;
             position: relative;
+            background: var(--bg-color);
             display: flex;
             flex-direction: column;
-            backdrop-filter: var(--blur);
-            -webkit-backdrop-filter: var(--blur);
+            overflow: hidden;
+        }
+
+        #bg-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.6;
         }
 
         .screen {
@@ -181,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         /* Splash Screen */
         #splash-screen {
-            background: linear-gradient(135deg, var(--primary), #667eea);
+            background: var(--primary);
             color: white;
             justify-content: center;
             align-items: center;
@@ -190,16 +159,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         .splash-logo {
-            width: 130px;
-            height: 130px;
-            margin-bottom: 25px;
-            animation: float 4s ease-in-out infinite;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
+            width: 120px;
+            height: 120px;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
         }
 
         .splash-logo svg, .logo-icon svg {
@@ -214,21 +177,14 @@ document.addEventListener("DOMContentLoaded", () => {
             100% { transform: scale(1); }
         }
 
-        .loader-wrapper {
-            margin: 35px 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
-
         .loader {
-            width: 50px;
-            height: 50px;
-            border: 3px solid rgba(255,255,255,0.2);
-            border-top: 3px solid white;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid white;
             border-radius: 50%;
-            animation: spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            margin: 30px auto;
+            animation: spin 1s linear infinite;
         }
 
         @keyframes spin {
@@ -236,16 +192,12 @@ document.addEventListener("DOMContentLoaded", () => {
             100% { transform: rotate(360deg); }
         }
 
-        .credit-text-loading {
-            font-size: 16px;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            animation: fadeInOut 2s infinite;
-        }
-
-        @keyframes fadeInOut {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
+        .credit-text {
+            position: absolute;
+            bottom: 40px;
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 300;
         }
 
         #main-menu {
@@ -275,32 +227,39 @@ document.addEventListener("DOMContentLoaded", () => {
         button {
             cursor: pointer;
             border: none;
-            border-radius: 16px;
+            border-radius: 12px;
             font-size: 18px;
-            font-weight: 700;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            transition: all 0.1s ease;
             font-family: inherit;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-
-        button:active {
-            transform: scale(0.96);
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+            outline: none;
         }
 
         .btn-primary {
-            padding: 18px;
-            background: linear-gradient(135deg, var(--primary), #2563eb);
+            padding: 15px;
+            background: var(--primary);
             color: white;
-            border-bottom: 3px solid rgba(0,0,0,0.1);
+            box-shadow: 0 6px 0 #357abd, 0 8px 15px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #357abd, 0 4px 8px rgba(0,0,0,0.2);
         }
 
         .btn-secondary {
-            padding: 16px;
-            background: var(--glass-bg);
-            color: var(--text-main);
-            backdrop-filter: var(--blur);
-            border: 1px solid rgba(255,255,255,0.2);
+            padding: 15px;
+            background: var(--secondary);
+            color: white;
+            box-shadow: 0 6px 0 #545b62, 0 8px 15px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #545b62, 0 4px 8px rgba(0,0,0,0.2);
         }
 
         .icon-btn {
@@ -387,24 +346,30 @@ document.addEventListener("DOMContentLoaded", () => {
             align-items: center;
             justify-content: center;
             width: 100%;
-            padding: 10px;
+            padding: 20px 10px;
             box-sizing: border-box;
+            perspective: 1200px;
         }
 
         #sudoku-board {
             display: grid;
             grid-template-columns: repeat(9, 1fr);
             grid-template-rows: repeat(9, 1fr);
-            width: min(94vw, 420px, 55vh);
-            height: min(94vw, 420px, 55vh);
-            border: 3px solid var(--cell-thick-border);
+            width: min(85vw, 380px, 45vh);
+            height: min(85vw, 380px, 45vh);
+            border: 6px solid var(--cell-thick-border);
             background: var(--cell-thick-border);
             gap: 1px;
             margin: 0 auto;
             box-sizing: border-box;
             overflow: hidden;
             border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            transform: rotateX(12deg) rotateY(-2deg) translateZ(0);
+            box-shadow: 
+                -2px 2px 0px rgba(0,0,0,0.2),
+                -10px 20px 40px rgba(0,0,0,0.3),
+                inset 0 0 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
         }
 
         .cell {
@@ -412,11 +377,17 @@ document.addEventListener("DOMContentLoaded", () => {
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: clamp(20px, 7vw, 28px);
+            font-size: clamp(16px, 5.5vw, 24px);
             cursor: pointer;
             position: relative;
-            transition: all 0.15s ease;
+            transition: all 0.2s ease;
             user-select: none;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+        }
+
+        .cell:active {
+            transform: translateZ(-5px);
+            background: var(--cell-active);
         }
 
         .cell:nth-child(3n) { border-left: 2px solid var(--cell-thick-border); }
@@ -458,12 +429,23 @@ document.addEventListener("DOMContentLoaded", () => {
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 0 rgba(0,0,0,0.1), 0 6px 10px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .num-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .num-btn.action {
             background: #f8d7da;
             color: #721c24;
+            box-shadow: 0 4px 0 #c82333, 0 6px 10px rgba(0,0,0,0.1);
+        }
+
+        .num-btn.action:active {
+            box-shadow: 0 1px 0 #c82333, 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .num-btn.completed {
@@ -485,15 +467,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         .modal-content {
             background: var(--card-bg);
-            backdrop-filter: var(--blur);
-            -webkit-backdrop-filter: var(--blur);
-            padding: 35px;
-            border-radius: 28px;
+            padding: 30px;
+            border-radius: 20px;
             text-align: center;
-            width: 85%;
-            max-width: 320px;
-            border: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            width: 80%;
+            max-width: 300px;
         }
 
         .modal-content h2 { margin-bottom: 15px; }
@@ -583,23 +561,17 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 </head>
 <body>
-    <div class="bg-animation">
-        <div class="blob"></div>
-        <div class="blob"></div>
-    </div>
     <div id="app">
+        <canvas id="bg-canvas"></canvas>
         <!-- Splash Screen -->
         <section id="splash-screen" class="screen active">
             <div class="splash-logo">
                 <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M512 512m-480 0a480 480 0 1 0 960 0 480 480 0 1 0-960 0Z" fill="#E9E8FF"></path><path d="M723.2 704c-25.6 0-51.2-12.8-70.4-32L582.4 582.4H435.2l-38.4 64c-19.2 32-51.2 57.6-89.6 57.6-57.6 0-102.4-44.8-102.4-102.4v-12.8V576l25.6-166.4c6.4-70.4 57.6-121.6 128-121.6 32 0 70.4 12.8 89.6 38.4 25.6 0 89.6-6.4 128 0 25.6-25.6 57.6-32 89.6-32 51.2 0 96 32 115.2 83.2v12.8l38.4 179.2c0 6.4 6.4 19.2 6.4 32 0 51.2-44.8 102.4-102.4 102.4z" fill="#8880FE"></path><path d="M716.8 460.8c-12.8 0-19.2-12.8-19.2-19.2s6.4-19.2 19.2-19.2c12.8 0 19.2 12.8 19.2 19.2s-6.4 19.2-19.2 19.2z m-108.8 0c-12.8 0-19.2-12.8-19.2-19.2s6.4-19.2 19.2-19.2c12.8 0 19.2 12.8 19.2 19.2s-6.4 19.2-19.2 19.2z m51.2 57.6c-6.4 0-19.2-6.4-19.2-19.2s6.4-19.2 19.2-19.2 19.2 12.8 19.2 19.2-6.4 19.2-19.2 19.2z m0-115.2c-6.4 0-19.2-6.4-19.2-19.2s6.4-19.2 19.2-19.2 19.2 12.8 19.2 19.2-6.4 19.2-19.2 19.2zM345.6 416h-51.2V448h51.2v51.2h32V448h51.2v-32h-51.2v-51.2h-32z" fill="#FFFFFF"></path></g></svg>
             </div>
-            <h1 style="font-size: 38px; letter-spacing: 1px; font-weight: 800; text-shadow: 0 4px 10px rgba(0,0,0,0.2);">سودوکو حرفه‌ای</h1>
-            
-            <div class="loader-wrapper">
-                <div class="loader"></div>
-                <div class="credit-text-loading">کاری از سید آروین موسوی</div>
-            </div>
-            <p style="opacity: 0.9; font-size: 14px;">در حال آماده سازی محیط بازی...</p>
+            <h1 style="font-size: 32px; letter-spacing: 2px;">سودوکو حرفه‌ای</h1>
+            <div class="loader"></div>
+            <p style="opacity: 0.8;">در حال آماده سازی...</p>
+            <div class="credit-text">کاری از سید آروین موسوی</div>
         </section>
 
         <!-- Main Menu -->
@@ -615,7 +587,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <button id="btn-settings" class="btn-secondary">تنظیمات</button>
                 <footer class="footer-nav">
         <a href="https://eitaa.com/Arvinweb" class="ads-button" onclick="app.openArvin(event)">
-            <span>ثبت تبلیغات @Arvinweb</span>
+            <span>ثبت تبلیغات</span>
         </a>
     </footer>
             </div>
@@ -661,6 +633,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     </label>
                 </div>
             </div>
+            <footer class="footer-nav">
+        <a href="https://eitaa.com/Arvinweb" class="ads-button" onclick="app.openArvin(event)">
+            <span>ثبت تبلیغات</span>
+        </a>
+    </footer>
         </section>
 
         <!-- Game Screen -->
@@ -689,7 +666,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <button class="num-btn action" data-value="erase">✕</button>
                 </div>
                 <div style="margin-top: 10px; display: flex; justify-content: center;">
-                    <button id="btn-hint" class="btn-secondary hint-btn" style="width: 100%; max-width: 400px; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px;">
+                    <button id="btn-hint" class="btn-secondary hint-btn" style="width: 95%; max-width: 400px; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px; margin-bottom: 5px;">
                         <span>راهنمایی</span>
                         <span id="hints-badge" style="background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 10px; font-size: 14px;">3</span>
                     </button>
@@ -823,10 +800,91 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         /**
+         * Falling Numbers Background Animation
+         */
+        class FallingBackground {
+            constructor() {
+                this.canvas = document.getElementById('bg-canvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.numbers = [];
+                this.count = 25;
+                this.resize();
+                this.init();
+                window.addEventListener('resize', () => this.resize());
+            }
+
+            resize() {
+                this.canvas.width = this.canvas.offsetWidth;
+                this.canvas.height = this.canvas.offsetHeight;
+            }
+
+            init() {
+                for (let i = 0; i < this.count; i++) {
+                    this.numbers.push(this.createNumber());
+                }
+                this.animate();
+            }
+
+            createNumber() {
+                return {
+                    x: Math.random() * this.canvas.width,
+                    y: Math.random() * this.canvas.height - this.canvas.height,
+                    val: Math.floor(Math.random() * 9) + 1,
+                    size: 15 + Math.random() * 40,
+                    speed: 1 + Math.random() * 3,
+                    rotation: Math.random() * Math.PI * 2,
+                    rotSpeed: (Math.random() - 0.5) * 0.05,
+                    opacity: 0.1 + Math.random() * 0.4,
+                    z: Math.random() * 2 // Pseudo 3D depth
+                };
+            }
+
+            animate() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                const themeColor = getComputedStyle(document.body).getPropertyValue('--primary').trim() || '#4a90e2';
+
+                this.numbers.forEach(num => {
+                    num.y += num.speed;
+                    num.rotation += num.rotSpeed;
+
+                    if (num.y > this.canvas.height + 50) {
+                        Object.assign(num, this.createNumber());
+                        num.y = -50;
+                    }
+
+                    this.ctx.save();
+                    this.ctx.translate(num.x, num.y);
+                    this.ctx.rotate(num.rotation);
+                    
+                    // Simple 3D effect: Scale based on Z and add shadow
+                    const scale = 0.5 + num.z * 0.5;
+                    this.ctx.scale(scale, scale);
+                    
+                    this.ctx.font = `bold ${num.size}px sans-serif`;
+                    this.ctx.fillStyle = themeColor;
+                    this.ctx.globalAlpha = num.opacity;
+                    
+                    // 3D Shadow layer
+                    this.ctx.shadowColor = 'rgba(0,0,0,0.3)';
+                    this.ctx.shadowBlur = 5;
+                    this.ctx.shadowOffsetX = 3;
+                    this.ctx.shadowOffsetY = 3;
+                    
+                    this.ctx.fillText(num.val, 0, 0);
+                    this.ctx.restore();
+                });
+
+                requestAnimationFrame(() => this.animate());
+            }
+        }
+
+        /**
          * Sudoku Application Manager
          */
         class SudokuApp {
             constructor() {
+                this.bg = new FallingBackground();
                 this.logic = new SudokuLogic();
                 this.puzzle = [];
                 this.solution = [];
@@ -1027,6 +1085,33 @@ document.addEventListener("DOMContentLoaded", () => {
                         this.boardEl.appendChild(cell);
                     }
                 }
+
+                // After creating DOM cells, validate user entries and mark errors so they persist across screen switches/resume
+                if (this.settings.hints) {
+                    for (let r = 0; r < 9; r++) {
+                        for (let c = 0; c < 9; c++) {
+                            if (this.puzzle[r][c] === 0) {
+                                const val = this.userBoard[r][c];
+                                const idx = r * 9 + c;
+                                const cellEl = this.boardEl.children[idx];
+                                if (val !== 0) {
+                                    const isValid = this.logic.validateMove(this.userBoard, r, c, val);
+                                    if (!isValid) {
+                                        cellEl.classList.add('error');
+                                    } else {
+                                        cellEl.classList.remove('error');
+                                    }
+                                } else {
+                                    cellEl.classList.remove('error');
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    // remove any lingering error classes if hints are off
+                    document.querySelectorAll('.cell.error').forEach(el => el.classList.remove('error'));
+                }
+
                 this.updateNumberPad();
             }
 
