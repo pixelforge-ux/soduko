@@ -7,65 +7,37 @@
 <script src="https://developer.eitaa.com/eitaa-web-app.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  try {
-    if (window.Eitaa && Eitaa.WebApp) {
-      Eitaa.WebApp.ready();
+  if (window.Eitaa && Eitaa.WebApp) {
+    Eitaa.WebApp.ready();
 
-      // تمام صفحه
-      if (Eitaa.WebApp.expand)
-        Eitaa.WebApp.expand();
+    if (Eitaa.WebApp.expand) Eitaa.WebApp.expand();
+    if (Eitaa.WebApp.setHeaderColor) Eitaa.WebApp.setHeaderColor('#0a61db');
+    if (Eitaa.WebApp.enableClosingConfirmation) Eitaa.WebApp.enableClosingConfirmation();
+    if (Eitaa.WebApp.disableVerticalSwipes) Eitaa.WebApp.disableVerticalSwipes();
 
-      // رنگ هدر
-      if (Eitaa.WebApp.setHeaderColor)
-        Eitaa.WebApp.setHeaderColor('#0a61db');
+    // فعال‌سازی دکمه بک
+    Eitaa.WebApp.BackButton.show();
 
-      // تایید خروج
-      if (Eitaa.WebApp.enableClosingConfirmation)
-        Eitaa.WebApp.enableClosingConfirmation();
+    // فقط یک state پایه می‌ذاریم
+    history.replaceState({ root: true }, "", location.href);
 
-      // غیرفعال‌سازی سوایپ
-      if (Eitaa.WebApp.disableVerticalSwipes)
-        Eitaa.WebApp.disableVerticalSwipes();
+    Eitaa.WebApp.BackButton.onClick(() => {
+      // اگر state قبل‌تر هست → برگرد
+      if (history.state && !history.state.root) {
+        history.back();
+      } else {
+        // واقعاً ریشه‌ای → خروج
+        Eitaa.WebApp.close();
+      }
+    });
 
-      /* =========================
-         مدیریت صحیح Back در SPA
-         ========================= */
-
-      let isHome = true; // فرض: اول صفحه اصلی هستیم
-
-      // هر جا وارد صفحه داخلی شدی، اینو صدا بزن
-      window.enterInnerPage = () => {
-        if (isHome) {
-          history.pushState({ inner: true }, "", "");
-        }
-        isHome = false;
-      };
-
-      // برگشت به صفحه اصلی
-      window.returnHome = () => {
-        isHome = true;
-        history.replaceState(null, "", location.pathname);
-      };
-
-      // فعال‌سازی دکمه بک ایتا
-      Eitaa.WebApp.BackButton.show();
-
-      // هندل بک
-      Eitaa.WebApp.BackButton.onClick(() => {
-        if (isHome) {
-          // ✅ تو صفحه اصلی → خروج واقعی
-          Eitaa.WebApp.close();
-        } else {
-          // ✅ تو صفحه داخلی → برگشت
-          history.back();
-          isHome = true;
-        }
-      });
-    }
-  } catch (e) {
-    console.warn(e);
+    // هر وقت رفتی صفحه داخلی، اینو صدا بزن
+    window.pushInnerState = () => {
+      history.pushState({ inner: true }, "", location.href);
+    };
   }
 });
+</script>
                                       </script>
     <style>
         :root {
