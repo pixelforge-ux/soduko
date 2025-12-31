@@ -11,27 +11,54 @@ document.addEventListener("DOMContentLoaded", () => {
     if (window.Eitaa && Eitaa.WebApp) {
       Eitaa.WebApp.ready();
 
+      // تمام صفحه
       if (Eitaa.WebApp.expand)
         Eitaa.WebApp.expand();
 
+      // رنگ هدر
       if (Eitaa.WebApp.setHeaderColor)
         Eitaa.WebApp.setHeaderColor('#0a61db');
 
+      // تایید خروج
       if (Eitaa.WebApp.enableClosingConfirmation)
         Eitaa.WebApp.enableClosingConfirmation();
 
+      // غیرفعال‌سازی سوایپ
       if (Eitaa.WebApp.disableVerticalSwipes)
         Eitaa.WebApp.disableVerticalSwipes();
 
-      // ✅ فعال و قابل مشاهده کردن دکمه بک ایتا
+      /* =========================
+         مدیریت صحیح Back در SPA
+         ========================= */
+
+      let isHome = true; // فرض: اول صفحه اصلی هستیم
+
+      // هر جا وارد صفحه داخلی شدی، اینو صدا بزن
+      window.enterInnerPage = () => {
+        if (isHome) {
+          history.pushState({ inner: true }, "", "");
+        }
+        isHome = false;
+      };
+
+      // برگشت به صفحه اصلی
+      window.returnHome = () => {
+        isHome = true;
+        history.replaceState(null, "", location.pathname);
+      };
+
+      // فعال‌سازی دکمه بک ایتا
       Eitaa.WebApp.BackButton.show();
 
-      // ✅ هندل کلیک دکمه بک
+      // هندل بک
       Eitaa.WebApp.BackButton.onClick(() => {
-        if (history.length > 1) {
-          history.back();
-        } else {
+        if (isHome) {
+          // ✅ تو صفحه اصلی → خروج واقعی
           Eitaa.WebApp.close();
+        } else {
+          // ✅ تو صفحه داخلی → برگشت
+          history.back();
+          isHome = true;
         }
       });
     }
@@ -39,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.warn(e);
   }
 });
-            </script>
+                                      </script>
     <style>
         :root {
             --bg-color: #f0f2f5;
